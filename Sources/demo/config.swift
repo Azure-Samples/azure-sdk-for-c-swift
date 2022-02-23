@@ -10,7 +10,7 @@ public var myCertKey = """
 <YOUR KEY HERE>
 """
 
-public var myBaltimore = """
+public var baltimoreRootCert = """
 -----BEGIN CERTIFICATE-----
 MIIDdzCCAl+gAwIBAgIEAgAAuTANBgkqhkiG9w0BAQUFADBaMQswCQYDVQQGEwJJ
 RTESMBAGA1UEChMJQmFsdGltb3JlMRMwEQYDVQQLEwpDeWJlclRydXN0MSIwIAYD
@@ -33,7 +33,3 @@ ksLi4xaNmjICq44Y3ekQEe5+NauQrz4wlHrQMz2nZQ/1/I6eYs9HRCwBXbsdtTLS
 R9I4LtD+gdwyah617jzV/OeBHRnDJELqYzmp
 -----END CERTIFICATE-----
 """
-
-
-//private var myDeviceId: String = "<your device id here>"
-//private var myHubURL: String = "<your hub here>"

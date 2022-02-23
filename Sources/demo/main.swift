@@ -46,7 +46,7 @@ class DemoProvisioningClient: MQTTClientDelegate {
     {
         AzProvClient = AzureIoTDeviceProvisioningClient(idScope: idScope, registrationID: registrationID)
 
-        let caCert: [UInt8] = Array(myBaltimore.utf8)
+        let caCert: [UInt8] = Array(baltimoreRootCert.utf8)
         let clientCert: [UInt8] = Array(myCert.utf8)
         let keyCert: [UInt8] = Array(myCertKey.utf8)
 
@@ -161,7 +161,7 @@ class DemoHubClient: MQTTClientDelegate {
     {
         AzHubClient = AzureIoTHubClient(iothubUrl: iothub, deviceId: deviceId)
 
-        let caCert: [UInt8] = Array(myBaltimore.utf8)
+        let caCert: [UInt8] = Array(baltimoreRootCert.utf8)
         let clientCert: [UInt8] = Array(myCert.utf8)
         let keyCert: [UInt8] = Array(myCertKey.utf8)
 

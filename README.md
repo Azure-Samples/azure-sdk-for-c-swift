@@ -1,12 +1,12 @@
 # How to use Azure SDK for C through Swift
 
-This is a sample implementation of the [Embedded C SDK](https://aka.ms/embeddedcsdk) which simplifies the creation of connecting Swift devices to Azure IoT services like Azure Iot Hub and DPS (Device Provisioning Service). 
+This is a sample implementation of the [Embedded C SDK](https://aka.ms/embeddedcsdk) which simplifies the connection of Swift applications to Azure IoT services like Azure IoT Hub and Azure Device Provisioning Service (DPS).
 
 ## Architecture view
 
-The illustration below shows the Swift sample taking a dependence on the Embedded C SDK which provides libraries used to access all Azure IoT functionalities. 
+The illustration below shows the Swift sample taking a dependency on the Embedded C SDK which provides libraries used to access all Azure IoT functionalities.
 
-This SDK also implements the BYO (bring your own) network stack approach, which means device builders can choose whichever MQTT client, TLS and TCP stack that works better for their target platform. 
+This SDK also implements the BYO (bring your own) network stack approach, which means device builders can choose whichever MQTT client, TLS and TCP stack that works better for their target platform.
 
 In this case, this sample leverages [Swift MQTT](https://github.com/matsune/swift-mqtt), [Swift NIO-SSL](https://github.com/apple/swift-nio-ssl) and [Swift NIO](https://github.com/apple/swift-nio).
 
@@ -32,8 +32,7 @@ The following should be completed before getting the sample running.
 If you're using **WSL** on Windows with **Ubuntu 20.04**, you can follow the steps below to get Swift working. For all other OS's and additional setup steps, please refer to the official [Swift documentation](https://www.swift.org/).
 
 ```bash
-# Install Swift on Ubuntu 20.04 LTS x64
-# Ewerton Scaboro da Silva, 2022-02-14
+# Last updated on 02-14-2022
 
 apt-get update
 apt-get install curl clang libicu-dev git libatomic1 libicu66 libxml2 libcurl4 zlib1g-dev libbsd0 tzdata libssl-dev libsqlite3-dev libblocksruntime-dev libncurses5-dev libdispatch-dev -y
