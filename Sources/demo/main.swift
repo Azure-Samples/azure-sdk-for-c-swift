@@ -50,12 +50,14 @@ class DemoProvisioningClient: MQTTClientDelegate {
         let clientCert: [UInt8] = Array(myCert.utf8)
         let keyCert: [UInt8] = Array(myCertKey.utf8)
 
-        let tlsConfiguration = try! TLSConfiguration.forClient(minimumTLSVersion: .tlsv11,
-                                                               maximumTLSVersion: .tlsv12,
-                                                               certificateVerification: .noHostnameVerification,
-                                                               trustRoots: NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMBytes(caCert)),
-                                                               certificateChain: NIOSSLCertificate.fromPEMBytes(clientCert).map { .certificate($0) },
-                                                               privateKey: .privateKey(.init(bytes: keyCert, format: NIOSSLSerializationFormats.pem)))
+        var tlsConfiguration = TLSConfiguration.makeClientConfiguration()
+        tlsConfiguration.minimumTLSVersion = .tlsv11
+        tlsConfiguration.maximumTLSVersion = .tlsv12
+        tlsConfiguration.trustRoots = try! NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMBytes(caCert))
+        tlsConfiguration.certificateVerification = .noHostnameVerification
+        tlsConfiguration.certificateChain = try! NIOSSLCertificate.fromPEMBytes(clientCert).map { .certificate($0) }
+        tlsConfiguration.privateKey = try! NIOSSLPrivateKeySource.privateKey(NIOSSLPrivateKey(bytes: keyCert, format: .pem))
+
         print("Client ID: \(AzProvClient.GetDeviceProvisioningClientID())")
         print("Username: \(AzProvClient.GetDeviceProvisioningUsername())")
 
@@ -165,12 +167,14 @@ class DemoHubClient: MQTTClientDelegate {
         let clientCert: [UInt8] = Array(myCert.utf8)
         let keyCert: [UInt8] = Array(myCertKey.utf8)
 
-        let tlsConfiguration = try! TLSConfiguration.forClient(minimumTLSVersion: .tlsv11,
-                                                               maximumTLSVersion: .tlsv12,
-                                                               certificateVerification: .noHostnameVerification,
-                                                               trustRoots: NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMBytes(caCert)),
-                                                               certificateChain: NIOSSLCertificate.fromPEMBytes(clientCert).map { .certificate($0) },
-                                                               privateKey: .privateKey(.init(bytes: keyCert, format: NIOSSLSerializationFormats.pem)))
+        var tlsConfiguration = TLSConfiguration.makeClientConfiguration()
+        tlsConfiguration.minimumTLSVersion = .tlsv11
+        tlsConfiguration.maximumTLSVersion = .tlsv12
+        tlsConfiguration.trustRoots = try! NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMBytes(caCert))
+        tlsConfiguration.certificateVerification = .noHostnameVerification
+        tlsConfiguration.certificateChain = try! NIOSSLCertificate.fromPEMBytes(clientCert).map { .certificate($0) }
+        tlsConfiguration.privateKey = try! NIOSSLPrivateKeySource.privateKey(NIOSSLPrivateKey(bytes: keyCert, format: .pem))
+        
         mqttClient = MQTTClient(
             host: iothub,
             port: 8883,
