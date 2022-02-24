@@ -306,22 +306,19 @@ var hubDemoHubClient = DemoHubClient(iothub: provisioningDemoClient.assignedHub,
 
 hubDemoHubClient.connectToIoTHub()
 
+var start = DispatchTime.now()
+var end = DispatchTime.now()
+
 while(!sendTelemetry) {
 
-    // Keep trying every 5 seconds to connect
-    var start = DispatchTime.now()
-    var end = DispatchTime.now()
+    end = DispatchTime.now()
+    let diffTime = end.uptimeNanoseconds - start.uptimeNanoseconds
 
-    while(!isDeviceProvisioned) {
-        
-        end = DispatchTime.now()
-        let diffTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-        
-        if Double(diffTime) / 1_000_000_000 > 5
-        {
-            start = DispatchTime.now()
-            hubDemoHubClient.connectToIoTHub()
-        }
+    // Keep trying every 5 seconds to connect
+    if Double(diffTime) / 1_000_000_000 > 5
+    {
+        start = DispatchTime.now()
+        hubDemoHubClient.connectToIoTHub()
     }
 }
 
