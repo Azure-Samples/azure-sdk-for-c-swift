@@ -46,15 +46,13 @@ class DemoProvisioningClient: MQTTClientDelegate {
     {
         AzProvClient = AzureIoTDeviceProvisioningClient(idScope: idScope, registrationID: registrationID)
 
-        let caCert: [UInt8] = Array(baltimoreRootCert.utf8)
         let clientCert: [UInt8] = Array(myCert.utf8)
         let keyCert: [UInt8] = Array(myCertKey.utf8)
 
         var tlsConfiguration = TLSConfiguration.makeClientConfiguration()
         tlsConfiguration.minimumTLSVersion = .tlsv11
         tlsConfiguration.maximumTLSVersion = .tlsv12
-        tlsConfiguration.trustRoots = try! NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMBytes(caCert))
-        tlsConfiguration.certificateVerification = .noHostnameVerification
+        tlsConfiguration.certificateVerification = .fullVerification
         tlsConfiguration.certificateChain = try! NIOSSLCertificate.fromPEMBytes(clientCert).map { .certificate($0) }
         tlsConfiguration.privateKey = try! NIOSSLPrivateKeySource.privateKey(NIOSSLPrivateKey(bytes: keyCert, format: .pem))
 
@@ -163,15 +161,13 @@ class DemoHubClient: MQTTClientDelegate {
     {
         AzHubClient = AzureIoTHubClient(iothubUrl: iothub, deviceId: deviceId)
 
-        let caCert: [UInt8] = Array(baltimoreRootCert.utf8)
         let clientCert: [UInt8] = Array(myCert.utf8)
         let keyCert: [UInt8] = Array(myCertKey.utf8)
 
         var tlsConfiguration = TLSConfiguration.makeClientConfiguration()
         tlsConfiguration.minimumTLSVersion = .tlsv11
         tlsConfiguration.maximumTLSVersion = .tlsv12
-        tlsConfiguration.trustRoots = try! NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMBytes(caCert))
-        tlsConfiguration.certificateVerification = .noHostnameVerification
+        tlsConfiguration.certificateVerification = .fullVerification
         tlsConfiguration.certificateChain = try! NIOSSLCertificate.fromPEMBytes(clientCert).map { .certificate($0) }
         tlsConfiguration.privateKey = try! NIOSSLPrivateKeySource.privateKey(NIOSSLPrivateKey(bytes: keyCert, format: .pem))
         
