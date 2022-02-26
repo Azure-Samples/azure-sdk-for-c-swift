@@ -282,18 +282,18 @@ provisioningDemoClient.subscribeToAzureDeviceProvisioningFeature()
 
 provisioningDemoClient.sendDeviceProvisioningRequest()
 
-var start = DispatchTime.now()
-var end = DispatchTime.now()
+var provStart = DispatchTime.now()
+var provEnd = DispatchTime.now()
 
 while(!isDeviceProvisioned) {
 
     // Poll every 5 seconds to ask if provisioned
-    end = DispatchTime.now()
-    let diffTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+    provEnd = DispatchTime.now()
+    let diffTime = provEnd.uptimeNanoseconds - provStart.uptimeNanoseconds
     
     if Double(diffTime) / 1_000_000_000 > 5
     {
-        start = DispatchTime.now()
+        provStart = DispatchTime.now()
         provisioningDemoClient.sendDeviceProvisioningPollingRequest(operationID: gOperationID)
     }
 }
@@ -306,22 +306,19 @@ var hubDemoHubClient = DemoHubClient(iothub: provisioningDemoClient.assignedHub,
 
 hubDemoHubClient.connectToIoTHub()
 
+var hubStart = DispatchTime.now()
+var hubEnd = DispatchTime.now()
+
 while(!sendTelemetry) {
 
-    // Keep trying every 5 seconds to connect
-    var start = DispatchTime.now()
-    var end = DispatchTime.now()
+    hubEnd = DispatchTime.now()
+    let diffTime = hubEnd.uptimeNanoseconds - hubStart.uptimeNanoseconds
 
-    while(!isDeviceProvisioned) {
-        
-        end = DispatchTime.now()
-        let diffTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-        
-        if Double(diffTime) / 1_000_000_000 > 5
-        {
-            start = DispatchTime.now()
-            hubDemoHubClient.connectToIoTHub()
-        }
+    // Keep trying every 5 seconds to connect
+    if Double(diffTime) / 1_000_000_000 > 5
+    {
+        hubStart = DispatchTime.now()
+        hubDemoHubClient.connectToIoTHub()
     }
 }
 
