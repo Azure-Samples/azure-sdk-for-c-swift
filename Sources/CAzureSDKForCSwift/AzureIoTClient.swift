@@ -309,21 +309,19 @@ public class AzureIoTHubClient {
     
     public func GetUserName() -> String
     {
-        var usernameCharArray = [CChar](repeating: 0, count: 100)
+        var usernameCharArray = [CChar](repeating: 0, count: 150)
         var usernameLength : Int = 0
         
-        let _ : az_result = az_iot_hub_client_get_user_name(&self.embeddedHubClient, &usernameCharArray, 100, &usernameLength )
-        
+        let _ : az_result = az_iot_hub_client_get_user_name(&self.embeddedHubClient, &usernameCharArray, 150, &usernameLength )
         return String(cString: usernameCharArray)
     }
     
     public func GetClientID() -> String
     {
-        var clientIDCharArray = [CChar](repeating: 0, count: 30)
+        var clientIDCharArray = [CChar](repeating: 0, count: 150)
         var clientIDLength : Int = 0
         
-        let _ : az_result = az_iot_hub_client_get_client_id(&self.embeddedHubClient, &clientIDCharArray, 30, &clientIDLength )
-        
+        let _ : az_result = az_iot_hub_client_get_client_id(&self.embeddedHubClient, &clientIDCharArray, 150, &clientIDLength )
         return String(cString: clientIDCharArray)
     }
     
