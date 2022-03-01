@@ -223,7 +223,7 @@ class DemoHubClient: MQTTClientDelegate {
                     if nameAndValue != nil
                     {
                         let (name, value) = nameAndValue!
-                        print("[IoT Hub]\tName: \(name)\tProperty Value: \(value)")
+                        print("[IoT Hub]\tName: \(name)\tValue: \(value)")
                     }
                     else
                     {
