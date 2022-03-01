@@ -383,6 +383,11 @@ public class AzureIoTHubClient {
         return AZ_IOT_HUB_CLIENT_PROPERTIES_WRITABLE_UPDATES_SUBSCRIBE_TOPIC
     }
     
+    public func GetC2DSubscribeTopic() -> String
+    {
+        return AZ_IOT_HUB_CLIENT_C2D_SUBSCRIBE_TOPIC
+    }
+    
     public func GetPropertiesDocumentPublishTopic(requestID: String) -> String
     {
         var topicCharArray = [CChar](repeating: 0, count: 100)
