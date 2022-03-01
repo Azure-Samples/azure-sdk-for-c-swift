@@ -11,9 +11,9 @@ import NIOSSL
 import AzureSDKForCSwift
 import CAzureSDKForCSwift
 
-var isProvisioningConnected: Bool = false;
-var isDeviceProvisioned: Bool = false;
-var sendTelemetry: Bool = false;
+var isProvisioningConnected: Bool = false
+var isDeviceProvisioned: Bool = false
+var sendTelemetry: Bool = false
 var gOperationID: String = ""
 
 let base: String
@@ -78,12 +78,12 @@ class DemoProvisioningClient: MQTTClientDelegate {
         switch packet {
         case let packet as ConnAckPacket:
             print("[Provisioning] Connack Received: \(packet)")
-            isProvisioningConnected = true;
+            isProvisioningConnected = true
             
         case let packet as PublishPacket:
-            print("[Provisioning] Publish Received");
-            print("[Provisioning] Publish Topic: \(packet.topic)");
-            print("[Provisioning] Publish Payload \(String(decoding: packet.payload, as: UTF8.self))");
+            print("[Provisioning] Publish Received")
+            print("[Provisioning] Publish Topic: \(packet.topic)")
+            print("[Provisioning] Publish Payload \(String(decoding: packet.payload, as: UTF8.self))")
 
             let provResponse: AzureIoTProvisioningRegisterResponse = AzProvClient.ParseRegistrationTopicAndPayload(topic: packet.topic, payload: String(decoding: packet.payload, as: UTF8.self))
             gOperationID = provResponse.OperationID
@@ -91,14 +91,14 @@ class DemoProvisioningClient: MQTTClientDelegate {
             if provResponse.RegistrationState.AssignedHubHostname.count > 0
             {
                 print("[Provisioning] Assigned Hub: \(provResponse.RegistrationState.AssignedHubHostname)")
-                isDeviceProvisioned = true;
+                isDeviceProvisioned = true
                 
                 assignedHub = provResponse.RegistrationState.AssignedHubHostname
                 assignedDeviceID = provResponse.RegistrationState.DeviceID
             }
             
         case let packet as SubAckPacket:
-            print("[Provisioning] Suback Received: \(packet)");
+            print("[Provisioning] Suback Received: \(packet)")
 
         default:
             print("[Provisioning] Packet Received: \(packet)")
@@ -191,24 +191,47 @@ class DemoHubClient: MQTTClientDelegate {
         switch packet {
         case let packet as ConnAckPacket:
             print("[IoT Hub] Connack Received: \(packet)")
-            sendTelemetry = true;
+            sendTelemetry = true
             
         case let packet as PublishPacket:
-            print("[IoT Hub] Publish Received: \(packet)");
-            print("[IoT Hub] Publish Topic: \(packet.topic)");
+            print("[IoT Hub] Publish Received: \(packet)")
+            print("[IoT Hub] Publish Topic: \(packet.topic)")
 
             var commandRequest: AzureIoTHubCommandRequest = AzureIoTHubCommandRequest()
             var propertiesMessage: AzureIoTHubPropertiesMessage = AzureIoTHubPropertiesMessage()
+            var c2dMessage: AzureIoTHubC2DMessage = AzureIoTHubC2DMessage()
 
             if az_result_succeeded(AzHubClient.ParseCommandsReceivedTopic(topic: packet.topic, message: &commandRequest))
             {
                 print("[IoT Hub] Received Command Request for: \(commandRequest.commandName)")
-                print("[IoT Hub] Command Payload \(String(decoding: packet.payload, as: UTF8.self))");
+                print("[IoT Hub] Command Payload \(String(decoding: packet.payload, as: UTF8.self))")
             }
             else if az_result_succeeded(AzHubClient.ParsePropertiesReceivedTopic(topic: packet.topic, message: &propertiesMessage))
             {
                 print("[IoT Hub] Received Properties Request")
-                print("[IoT Hub] Properties Payload \(String(decoding: packet.payload, as: UTF8.self))");
+                print("[IoT Hub] Properties Payload \(String(decoding: packet.payload, as: UTF8.self))")
+            }
+            else if az_result_succeeded(AzHubClient.ParseC2DReceivedTopic(topic: packet.topic, message: &c2dMessage))
+            {
+                print("[IoT Hub] Received C2D Message")
+                print("[IoT Hub] C2D Message: \(String(decoding: packet.payload, as: UTF8.self))")
+                print("[IoT Hub] C2D Message Properties")
+                
+                while(true) {
+                    let nameAndValue = c2dMessage.properties.PropertiesNext()
+                    
+                    if nameAndValue != nil
+                    {
+                        let (name, value) = nameAndValue!
+                        print("[IoT Hub]\tName: \(name)\tProperty Value: \(value)")
+                    }
+                    else
+                    {
+                        break
+                    }
+ 
+                }
+
             }
 
         default:
@@ -250,11 +273,15 @@ class DemoHubClient: MQTTClientDelegate {
     }
 
     public func disconnectFromIoTHub() {
-        mqttClient.disconnect();
+        mqttClient.disconnect()
     }
 
     public func subscribeToAzureIoTHubFeatures() {
         print("[IoT Hub] Subscribing to IoT Hub Features")
+        // C2D Messages
+        let c2dTopic = AzHubClient.GetC2DSubscribeTopic()
+        mqttClient.subscribe(topic: c2dTopic, qos: QOS.1)
+
         // Commands
         let commandsTopic = AzHubClient.GetCommandsSubscribeTopic()
         mqttClient.subscribe(topic: commandsTopic, qos: QOS.1)

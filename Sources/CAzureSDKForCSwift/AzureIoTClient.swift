@@ -272,8 +272,9 @@ public struct AzureIoTHubPropertiesMessage
 
 public struct AzureIoTHubMessageProperties
 {
-    private var embeddedMessageProperties: az_iot_message_properties
+    private var embeddedMessageProperties: az_iot_message_properties = az_iot_message_properties()
     
+    public init() {}
     public init(embeddedMessageProperties: az_iot_message_properties)
     {
         self.embeddedMessageProperties = embeddedMessageProperties
@@ -306,7 +307,7 @@ public struct AzureIoTHubMessageProperties
         }
     }
     
-    public mutating func PropertiesNext() -> (name: String?, value: String?)
+    public mutating func PropertiesNext() -> (name: String, value: String)?
     {
         var nameSpan: az_span = az_span()
         var valueSpan: az_span = az_span()
@@ -330,15 +331,16 @@ public struct AzureIoTHubMessageProperties
         }
         else
         {
-            return (nil, nil)
+            return nil
         }
     }
 }
 
 public struct AzureIoTHubC2DMessage
 {
-    public var properties: AzureIoTHubMessageProperties
+    public var properties: AzureIoTHubMessageProperties = AzureIoTHubMessageProperties()
 
+    public init() {}
     public init(embeddedC2DMessage: az_iot_hub_client_c2d_request)
     {
         properties = AzureIoTHubMessageProperties(embeddedMessageProperties: embeddedC2DMessage.properties)
