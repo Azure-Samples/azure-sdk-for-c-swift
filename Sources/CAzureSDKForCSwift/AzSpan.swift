@@ -1,5 +1,5 @@
 import Foundation
-import AzureIoTUniversalMiddleware
+import AzureSDKForCSwift
 
 public class AzSpan {
     private var dataPtr: UnsafePointer<UInt8>?
