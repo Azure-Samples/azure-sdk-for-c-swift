@@ -374,7 +374,7 @@ public class AzureIoTHubClient {
             return az_span_create(devPtr, Int32(deviceId.count))
         }
         
-        _ = az_iot_hub_client_init(&embeddedHubClient, iothubSpan, deviceIdSpan, nil)
+        _ = az_iot_hub_client_init(&embeddedHubClient, iothubSpan, deviceIdSpan, &embeddedHubClientOptions)
     }
     
     public func GetUserName() -> String
