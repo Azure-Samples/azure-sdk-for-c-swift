@@ -45,6 +45,6 @@ while (counter < totalNumberOfTelemetryMessagesToSend &&
     }
 }
 
-azureIoT.stop()
+_ = azureIoT.stop()
 
 print("Bye...")

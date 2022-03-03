@@ -36,13 +36,13 @@ public class AzureIoT: MQTTClientDelegate {
         switch packet {
         case let packet as ConnAckPacket:
             print("< CONNACK \(packet.returnCode)")
-            let retCode = azure_iot_mqtt_client_connected(&internalClient)
+            _ = azure_iot_mqtt_client_connected(&internalClient)
         case let packet as PubAckPacket:
             print("< PUBACK \(packet.identifier)")
-            let retCode = azure_iot_mqtt_client_publish_completed(&internalClient, Int32(packet.identifier))
+            _ = azure_iot_mqtt_client_publish_completed(&internalClient, Int32(packet.identifier))
         case let packet as SubAckPacket:
             print("< SUBACK \(packet.identifier) | \(packet.returnCodes)")
-            let retCode = azure_iot_mqtt_client_subscribe_completed(&internalClient, Int32(packet.identifier))
+            _ = azure_iot_mqtt_client_subscribe_completed(&internalClient, Int32(packet.identifier))
         case let packet as PublishPacket:
             print("< PUBLISH \(packet.identifier) | \(packet.topic) | \(packet.qos)")
             print("  Payload: \(String(decoding: packet.payload, as: UTF8.self))")
@@ -52,7 +52,7 @@ public class AzureIoT: MQTTClientDelegate {
             mqttMessage.payload = AzSpan(data: packet.payload).toCAzSpan()
             mqttMessage.qos = mqtt_qos_t(rawValue: UInt32(packet.qos.rawValue))
 
-            let retCode = azure_iot_mqtt_client_message_received(&internalClient, &mqttMessage)
+            _ = azure_iot_mqtt_client_message_received(&internalClient, &mqttMessage)
         default:
             print("Packet \(packet)")
         }
@@ -62,7 +62,7 @@ public class AzureIoT: MQTTClientDelegate {
         if state == .connected {
         }
         else if state == .disconnected {
-            let retCode = azure_iot_mqtt_client_disconnected(&internalClient)
+            _ = azure_iot_mqtt_client_disconnected(&internalClient)
         }
         print("[MQTT] \(state)")
     }
