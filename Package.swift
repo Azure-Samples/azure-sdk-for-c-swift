@@ -41,6 +41,8 @@ let package = Package(
             name: "AzureIoTMiddlewareForSwift",
             dependencies: [
                 "AzureIoTUniversalMiddleware",
+                "CAzureSDKForCSwift",
+                .product(name: "MQTT", package: "swift-mqtt"),
                 .product(name: "Crypto", package: "swift-crypto")
                 ]),
         .executableTarget(
@@ -57,7 +59,6 @@ let package = Package(
                         "CAzureSDKForCSwift",
                         "AzureIoTUniversalMiddleware",
                         "AzureIoTMiddlewareForSwift",
-                        .product(name: "MQTT", package: "swift-mqtt"),
                         ]),
         .testTarget(
             name: "AzureSDKForCSwiftTests",

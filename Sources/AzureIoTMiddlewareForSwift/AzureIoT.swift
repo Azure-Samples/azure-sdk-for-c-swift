@@ -2,6 +2,7 @@ import Foundation
 import MQTT
 import NIOSSL
 import Crypto
+import CAzureSDKForCSwift
 import AzureIoTUniversalMiddleware
 
 extension StringProtocol {
