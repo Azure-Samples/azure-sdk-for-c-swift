@@ -13,10 +13,17 @@ let package = Package(
         .library(
             name: "CAzureSDKForCSwift",
             targets: ["CAzureSDKForCSwift"]),
+        .library(
+            name: "AzureIoTUniversalMiddleware",
+            targets: ["AzureIoTUniversalMiddleware"]),
+        .library(
+            name: "AzureIoTMiddlewareForSwift",
+            targets: ["AzureIoTMiddlewareForSwift"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/matsune/swift-mqtt", from: "1.0.0")
+        .package(url: "https://github.com/matsune/swift-mqtt", from: "1.0.0"),
+        .package(url: "https://github.com/apple/swift-crypto.git", .upToNextMajor(from: "1.0.1"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -27,12 +34,31 @@ let package = Package(
         .target(
             name: "AzureSDKForCSwift",
             dependencies: []),
+        .target(
+            name: "AzureIoTUniversalMiddleware",
+            dependencies: ["AzureSDKForCSwift"]),
+        .target(
+            name: "AzureIoTMiddlewareForSwift",
+            dependencies: [
+                "AzureIoTUniversalMiddleware",
+                "CAzureSDKForCSwift",
+                .product(name: "MQTT", package: "swift-mqtt"),
+                .product(name: "Crypto", package: "swift-crypto")
+                ]),
         .executableTarget(
                     name: "demo",
                     dependencies: [
                         "AzureSDKForCSwift",
                         "CAzureSDKForCSwift",
                         .product(name: "MQTT", package: "swift-mqtt")
+                        ]),
+        .executableTarget(
+                    name: "demo_pnp",
+                    dependencies: [
+                        "AzureSDKForCSwift",
+                        "CAzureSDKForCSwift",
+                        "AzureIoTUniversalMiddleware",
+                        "AzureIoTMiddlewareForSwift",
                         ]),
         .testTarget(
             name: "AzureSDKForCSwiftTests",
