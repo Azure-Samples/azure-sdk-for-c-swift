@@ -92,7 +92,7 @@ public class AzureIoT: MQTTClientDelegate {
         tlsConfiguration.minimumTLSVersion = .tlsv11
         tlsConfiguration.maximumTLSVersion = .tlsv12
         tlsConfiguration.trustRoots = try! NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMFile(caCert))
-        tlsConfiguration.certificateVerification = .noHostnameVerification
+        tlsConfiguration.certificateVerification = .fullVerification
 
         mySelf.mqttClient = MQTTClient(
             host: address,
