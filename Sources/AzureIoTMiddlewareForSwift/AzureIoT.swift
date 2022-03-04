@@ -19,7 +19,7 @@ public class AzureIoT: MQTTClientDelegate {
 
     private var MQTT_PASSWORD_LIFETIME_IN_MINUTES: UInt32 = 60
 
-    private var userAgent: AzSpan = AzSpan(text: "c%2F1.3.0-beta.1(swift)")
+    private var userAgent: AzSpan = AzSpan(text: "azsdk-c%2Fswift-mid%2F\(AZ_SDK_VERSION_STRING)")
 
     public var mqttClient: MQTTClient! = nil
     public var mqttPublishPacketId: UInt32 = 0
