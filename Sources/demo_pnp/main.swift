@@ -6,13 +6,6 @@ import CAzureSDKForCSwift
 import AzureIoTUniversalMiddleware
 import AzureIoTMiddlewareForSwift
 
-let base: String
-if CommandLine.arguments.count > 1 {
-    base = CommandLine.arguments[1]
-} else {
-    base = "."
-}
-
 let totalNumberOfTelemetryMessagesToSend = 10
 
 var azureIoT: AzureIoT = AzureIoT(

@@ -5,12 +5,6 @@ import Crypto
 import CAzureSDKForCSwift
 import AzureIoTUniversalMiddleware
 
-extension StringProtocol {
-    subscript(offset: Int) -> Character {
-        self[index(startIndex, offsetBy: offset)]
-    }
-}
-
 public class AzureIoT: MQTTClientDelegate {
     // Section 1: Variables
     private var azureIotConfig: azure_iot_config_t = azure_iot_config_t()
@@ -85,13 +79,9 @@ public class AzureIoT: MQTTClientDelegate {
         let username: String = (AzSpan(span: mqttClientConfig!.pointee.username)).toString()
         let password: String = (AzSpan(span: mqttClientConfig!.pointee.password)).toString()
 
-        let caCert = "/home/ewertons/code/work/s1/azure-sdk-for-c-swift/certs/baltimore.pem"
-        // let clientCert = "\(base)/certs/client.pem"
-        // let keyCert = "\(base)/certs/client-key.pem"
         var tlsConfiguration = TLSConfiguration.makeClientConfiguration()
         tlsConfiguration.minimumTLSVersion = .tlsv11
         tlsConfiguration.maximumTLSVersion = .tlsv12
-        tlsConfiguration.trustRoots = try! NIOSSLTrustRoots.certificates(NIOSSLCertificate.fromPEMFile(caCert))
         tlsConfiguration.certificateVerification = .fullVerification
 
         mySelf.mqttClient = MQTTClient(
@@ -306,7 +296,7 @@ public class AzureIoT: MQTTClientDelegate {
     }
 
     public func sendTelemetry(message: String) -> Bool {
-        let messageSpan = AzSpan(text: message + "\0")
+        let messageSpan = AzSpan(text: message)
         return azure_iot_send_telemetry(&internalClient, messageSpan.toCAzSpan()) == 0
     }
 
