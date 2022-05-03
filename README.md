@@ -1,6 +1,6 @@
 # How to use Azure SDK for C through Swift
 
-This is a sample implementation of the [Embedded C SDK](https://aka.ms/embeddedcsdk) which simplifies the connection of Swift applications to Azure IoT services like Azure IoT Hub and Azure Device Provisioning Service (DPS).
+This is a sample implementation of the [Embedded C SDK](https://aka.ms/embeddedcsdk) which simplifies the connection of Swift applications to Azure IoT services like Azure IoT Hub and Azure Device Provisioning Service (DPS). We have a sample using this library in an [iOS application linked here](https://github.com/Azure-Samples/azure-sdk-for-c-ios).
 
 ## Architecture view
 
@@ -12,11 +12,10 @@ In this case, this sample leverages [Swift MQTT](https://github.com/matsune/swif
 
 <img src="./resources/architecture.png" width="80%">
 
- 
 ## Features
 
 - IoT Hub client
-- DPS client (Device Provisioning Service) 
+- DPS client (Device Provisioning Service)
 - X.509 cert authentication
 - Telemetry messages (D2C - Device to Cloud)
 - Commands (C2D - Device to Cloud)
@@ -63,7 +62,7 @@ swift run demo
 
 ## Known Issues and Limitations
 
-- Support for MQTT over WebSockets: Swift MQTT (used in this sample) does not support Web Sockets. [CocoaMQTT](https://github.com/emqx/CocoaMQTT) could be an alternative, since it leverages [StarScream](https://github.com/daltoniam/Starscream). [MQTT-nio](https://github.com/adam-fowler/mqtt-nio) might be an alternative as well. 
+- Support for MQTT over WebSockets: Swift MQTT (used in this sample) does not support Web Sockets. [CocoaMQTT](https://github.com/emqx/CocoaMQTT) could be an alternative, since it leverages [StarScream](https://github.com/daltoniam/Starscream). [MQTT-nio](https://github.com/adam-fowler/mqtt-nio) might be an alternative as well.
 - This sample leverages Swift NIO (for network) and Swift NIO-SSL (for TLS) are supported by Apple. Swift MQTT client is a 3rd party library, not created nor supported by Apple.
 - No SAS Token utilization is implemented on this sample.
 - No reconnection and no retries have been implemented. They need to be implemented by the client application.
