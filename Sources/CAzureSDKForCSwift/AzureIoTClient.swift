@@ -310,6 +310,17 @@ public class AzureIoTHubClient {
         
         return String(cString: topicCharArray)
     }
+  
+    public func GetTwinPublishTopic() -> String
+    {
+        var twin_document_topic_request_id = AzSpan.init(text:"get_twin")
+        var topicCharArray = [CChar](repeating: 0, count: 128)
+        var topicLength : Int = 0
+        
+        let _ : az_result = az_iot_hub_client_twin_document_get_publish_topic(&self.embeddedHubClient, twin_document_topic_request_id.toCAzSpan(), &topicCharArray, 128, &topicLength )
+        
+        return String(cString: topicCharArray)
+    }
 
     public func GetC2DSubscribeTopic() -> String
     {
