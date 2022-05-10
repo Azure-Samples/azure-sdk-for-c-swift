@@ -1,12 +1,5 @@
 import AzureSDKForCSwift
 
-private func makeCString(from str: String) -> UnsafeMutablePointer<Int8> {
-    let count = str.utf8CString.count
-    let result: UnsafeMutableBufferPointer<Int8> = UnsafeMutableBufferPointer<Int8>.allocate(capacity: count)
-    _ = result.initialize(from: str.utf8CString)
-    return result.baseAddress!
-}
-
 public struct AzureIoTProvisioningRegistrationState
 {
     public var AssignedHubHostname: String
@@ -301,22 +294,36 @@ public class AzureIoTHubClient {
         return String(cString: clientIDCharArray)
     }
     
-    public func GetTelemetryPublishTopic() -> String
+    public func GetTelemetryPublishTopic(properties: AzureIoTMessageProperties? = nil) -> String
     {
         var topicCharArray = [CChar](repeating: 0, count: 100)
         var topicLength : Int = 0
+
+        var copyProps: AzureIoTMessageProperties
+        var copyEmbedded: az_iot_message_properties
+        if( properties != nil )
+        {
+          // This has to be done since the API below requires an in/out. Copy the struct to pass to embedded API.
+          copyProps = properties!
+          copyEmbedded = copyProps.embeddedProperties
+          let _ : az_result = az_iot_hub_client_telemetry_get_publish_topic(&self.embeddedHubClient, &copyEmbedded, &topicCharArray, 100, &topicLength )
+        }
+        else
+        {
+            let _ : az_result = az_iot_hub_client_telemetry_get_publish_topic(&self.embeddedHubClient, nil, &topicCharArray, 100, &topicLength )
+        }
+
         
-        let _ : az_result = az_iot_hub_client_telemetry_get_publish_topic(&self.embeddedHubClient, nil, &topicCharArray, 100, &topicLength )
         
         return String(cString: topicCharArray)
     }
   
     public func GetTwinPublishTopic() -> String
     {
-        var twin_document_topic_request_id = AzSpan.init(text:"get_twin")
+        let twin_document_topic_request_id = AzSpan.init(text:"get_twin")
         var topicCharArray = [CChar](repeating: 0, count: 128)
         var topicLength : Int = 0
-        
+
         let _ : az_result = az_iot_hub_client_twin_document_get_publish_topic(&self.embeddedHubClient, twin_document_topic_request_id.toCAzSpan(), &topicCharArray, 128, &topicLength )
         
         return String(cString: topicCharArray)
