@@ -39,7 +39,7 @@ public class AzureIoT: MQTTClientDelegate {
             print("< SUBACK \(packet.identifier) | \(packet.returnCodes)")
             _ = azure_iot_mqtt_client_subscribe_completed(&internalClient, Int32(packet.identifier))
         case let packet as PublishPacket:
-            print("< PUBLISH \(packet.identifier) | \(packet.topic) | \(packet.qos)")
+            print("< PUBLISH \(String(describing: packet.identifier)) | \(packet.topic) | \(packet.qos)")
             print("  Payload: \(String(decoding: packet.payload, as: UTF8.self))")
 
             var mqttMessage = mqtt_message_t()

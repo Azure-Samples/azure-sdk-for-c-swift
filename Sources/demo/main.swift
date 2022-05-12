@@ -258,9 +258,11 @@ class DemoHubClient: MQTTClientDelegate {
 
 /// Sends a message to the IoT hub
     public func sendMessage() {
-        let swiftString = AzHubClient.GetTelemetryPublishTopic()
+        var propertiesStruct = AzureIoTMessageProperties()
+        propertiesStruct.appendPropertyAndValue(property: AzureIoTMessagePropertyContentType, value: "application%2fjson")
+        let swiftString = AzHubClient.GetTelemetryPublishTopic(properties: propertiesStruct)
 
-        let telem_payload = "Hello iOS"
+        let telem_payload = "\"Hello iOS\""
         print("[IoT Hub] Sending a message to topic: \(swiftString)")
         print("[IoT Hub] Sending a message: \(telem_payload)")
 
