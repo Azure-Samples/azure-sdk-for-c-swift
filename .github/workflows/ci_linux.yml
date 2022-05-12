@@ -13,6 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Configure
-      run: .github/scripts/install_software.sh
+      run: sudo .github/scripts/install_software.sh
     - name: Build
       run: .github/scripts/build_repo.sh
