@@ -9,4 +9,3 @@ set -o pipefail # Exit if pipe failed.
 
 swift package clean
 swift build
-swift run demo
