@@ -11,7 +11,7 @@ apt-get update
 apt-get install curl clang libicu-dev git libatomic1 libicu66 libxml2 libcurl4 zlib1g-dev libbsd0 tzdata libssl-dev libsqlite3-dev libblocksruntime-dev libncurses5-dev libdispatch-dev -y
 
 mkdir ~/swift
-cd ~swift
+cd ~/swift
 wget https://download.swift.org/development/ubuntu2004/swift-DEVELOPMENT-SNAPSHOT-2022-02-03-a/swift-DEVELOPMENT-SNAPSHOT-2022-02-03-a-ubuntu20.04.tar.gz
 tar -xvzf ./swift-DEVELOPMENT-SNAPSHOT-2022-02-03-a-ubuntu20.04.tar.gz -C ~/swift
 echo 'export PATH="~/swift/swift-DEVELOPMENT-SNAPSHOT-2022-02-03-a-ubuntu20.04/usr/bin:$PATH"' >> ~/.profile
