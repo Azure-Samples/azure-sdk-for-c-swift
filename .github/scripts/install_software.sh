@@ -8,7 +8,23 @@ set -o nounset # Exit if variable not set.
 set -o pipefail # Exit if pipe failed.
 
 apt-get update
-apt-get install curl clang libicu-dev git libatomic1 libicu66 libxml2 libcurl4 zlib1g-dev libbsd0 tzdata libssl-dev libsqlite3-dev libblocksruntime-dev libncurses5-dev libdispatch-dev -y
+apt-get install \
+          binutils \
+          git \
+          gnupg2 \
+          libc6-dev \
+          libcurl4-openssl-dev \
+          libedit2 \
+          libgcc-9-dev \
+          libpython3.8 \
+          libsqlite3-0 \
+          libstdc++-9-dev \
+          libxml2-dev \
+          libz3-dev \
+          pkg-config \
+          tzdata \
+          unzip \
+          zlib1g-dev
 
 mkdir ~/swift
 cd ~/swift
