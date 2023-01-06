@@ -267,7 +267,7 @@ public class AzureIoTHubClient {
         embeddedHubClient = az_iot_hub_client()
         var embeddedHubClientOptions = az_iot_hub_client_options()
         
-        let userAgentSpan = AzSpan(text: "azsdk-c%2Fswift%2F\(AZ_SDK_VERSION_STRING)")
+        let userAgentSpan = AzSpan(text: "azsdk-c%2F\(AZ_SDK_VERSION_STRING)(swift)")
         embeddedHubClientOptions.user_agent = userAgentSpan.toCAzSpan()
         
         let iothubSpan = AzSpan(text: iothubUrl)
