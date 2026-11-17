@@ -10,9 +10,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    container: swift:5.10.1-jammy@sha256:ffc42e399ad0cad324f68d58f65e4d5f2c22eb9df73c4dfa249e898d497254b3
     steps:
     - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
-    - name: Configure
-      run: sudo .github/scripts/install_software.sh
     - name: Build
       run: .github/scripts/build_repo.sh
